@@ -76,6 +76,8 @@ while(res == "y"):
     print("")
     print("6. If you want the object queue to be initialized as ['x', 'y', 'z', 'b', 'b'] Enter xyz \n Note Objects must be distinct")
     print("")
+    print("7. Move Queue always has a length of 5")
+    print("")
     lvl = int(input("Level Select (1-4):"))
 
     if(lvl == 1):
