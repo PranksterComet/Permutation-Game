@@ -1,3 +1,6 @@
+from itertools import product
+from itertools import permutations
+
 
 res = "y"
 while(res == "y"):
@@ -40,14 +43,47 @@ while(res == "y"):
             print("l:", l)
             print("")
 
+    def run2(sym):
+        for i in range(5):
+            print("Iter", i+1)
+            for j in range(5):
+                #print(" Sub Iter", j+1)
+                if(sym['o'][j] != 'b'):
+                    temp = sym['o'][j]
+                    sym[temp] = perm(sym['m'][i], sym[temp])
+                    
+                    #print(obj[j])
+
+            
+            for t in sym:
+                print(t, ":", sym[t])
+            print()
+            
+        
     def fill(obj):
         while(len(obj)<5):
             obj.append('b')
+
+    def choose(l, k):
+        n = len(l)
+        ans = []
+
+        if k==0:
+            return ans
+        
+        for j in choose(l,k-1):
+            temp = j
+            for el in l:
+                temp.append(el)
+                ans.append(temp)
+                temp = j
+        return ans
     
     
     l = [1, 2, 3, 4, 5]
     lvl = 1
-    obj = ["m", "b", "l", "b", "b"] #O stands for object queue itself
+    obj = ["m", "b", "l", "b", "b"] 
+    
     m = []
 
     '''
@@ -70,15 +106,15 @@ while(res == "y"):
     print("")
     print("3. There are 2 types of queues. The move queue (denoted by m) and the list queue (denoted by o) \n In the jth sub-iteration of the ith iteration the move m[i] will be applied on the list o[j]")
     print("")
-    print("4. Everything is indexed from 1 to 5. If the object queue has less than 5 elements remaining elements are filled by 'b' which stands for blank")
+    print("4. Everything is indexed from 1 to 5. If the list queue has less than 5 elements remaining elements are filled by 'b' which stands for blank")
     print("")
     print("5. The player may only enter swaps or 2 cycles as input moves, identity moves such as 44 are not considered as swaps")
     print("")
-    print("6. If you want the list queue to be initialized as ['x', 'y', 'z', 'b', 'b'] Enter xyz \n Note lists must be distinct and must already exist")
+    print("6. If you want the list queue to be initialized as ['x', 'y', 'z', 'b', 'b'] Enter xyz (here x, y, z are the names of the lists) \n Note lists must be distinct and only lists that have already been created may be pushed into the queue")
     print("")
-    print("7. Move Queue always has a length of 5")
+    print("7. Move Queue must have 5 non empty elements")
     print("")
-    lvl = int(input("Level Select (1-4):"))
+    lvl = int(input("Level Select (1-5):"))
 
     if(lvl == 1):
         print("Level 1: A Little Too Much Space")
@@ -99,7 +135,7 @@ while(res == "y"):
 
         print("")
         print("Since we are trying to permute 'l' you can try entering l")
-        s = input("Enter Objects(no spaces):")
+        s = input("Enter Lists(no spaces):")
 
         for c in s:
             obj.append(c)
@@ -123,7 +159,7 @@ while(res == "y"):
 
         m[2] = cyc
 
-        s = input("Enter Objects(no spaces):")
+        s = input("Enter Lists(no spaces):")
 
         for c in s:
             obj.append(c)
@@ -149,7 +185,7 @@ while(res == "y"):
 
             m[3*i] = cyc
 
-        s = input("Enter Objects(no spaces):")
+        s = input("Enter Lists(no spaces):")
 
         for c in s:
             obj.append(c)
@@ -174,7 +210,7 @@ while(res == "y"):
             m.append(cyc)
 
         print("")
-        s = input("Enter Objects(no spaces):")
+        s = input("Enter Lists(no spaces):")
 
         for c in s:
             obj.append(c)
@@ -183,5 +219,43 @@ while(res == "y"):
         run(obj, m, l)
 
     
+    elif(lvl == 5):
+        print("Level 5: Entangled")
+        print("In this level both the lists x and y need to have their order restored")
+        m = []
+        obj = []
+        x = [2, 3, 4, 5, 1]
+        y = [3, 4, 5, 1 ,2]
+        
+        print("x:", x)
+        print("y:", y)
+        print("b: []")
+        MoveQ(m)
+        
+        for i in range(5):
+            s = input("Enter Move: ")
+            cyc = []
+            for k in s:
+                cyc.append(int(k))
 
+            m.append(cyc)
+
+        print("")
+        s = input("Enter Lists(no spaces):")
+
+        for c in s:
+            obj.append(c)
+
+        fill(obj)
+        
+        print("x:", x)
+        print("y:", y)
+        MoveQ(m)
+        ObjQ(obj)
+        
+        sym = {'x': x, 'y': y, 'o': obj, 'm': m}
+
+        run2(sym)
+        
+        
     res = input("Restart? (y/n)")
